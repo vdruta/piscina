@@ -20,7 +20,6 @@ void	ft_test_combinations(int i, int j, int k)
 			ft_putchar(' ');
 		}
 	}
-
 }
 
 void	ft_print_comb(void)
