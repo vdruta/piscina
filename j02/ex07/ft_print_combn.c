@@ -3,21 +3,24 @@ void    ft_putchar(char c);
 void	ft_print_screen(int *t, int size)
 {
         int i;
-        int islower;
+        int ok;
 
         i = 1;
-        islower = 1;
+        ok = 1;
         while (i < size)
         {
                 if (t[i - 1] >= t[i])
-                        islower = 0;
+                        ok = 0;
                 i++;
         }
-        if (islower)
+        if (ok)
         {
                 i = 0;
                 while (i < size)
-                        ft_putchar(t[i++] + '0');
+		{
+                        ft_putchar(t[i] + '0');
+			i++;
+		}
                 if (t[0] < (10 - size))
                 {
                         ft_putchar(',');
