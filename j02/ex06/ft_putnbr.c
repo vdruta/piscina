@@ -2,18 +2,25 @@ void    ft_putchar(char c);
 
 void	ft_putnbr(int nb)
 {
-	if (nb < 0)
+	long n;
+
+	n = nb;
+	if (n < 0)
 	{
-		nb = -nb;
+		n = -n;
 		ft_putchar('-');
 	}
-	if (nb > 9)
-		ft_putnbr(nb / 10);
-	ft_putchar(nb % 10 + '0');
+	if (n > 9)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+		ft_putchar(n + '0');
 }
 
 int	main(void)
 {
-	ft_putnbr(-4278);
+	ft_putnbr(-2147483648);
 	return (0);
 }
