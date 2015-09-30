@@ -18,9 +18,3 @@ void	ft_putnbr(int nb)
 	else
 		ft_putchar(n + '0');
 }
-
-int	main(void)
-{
-	ft_putnbr(-2147483648);
-	return (0);
-}

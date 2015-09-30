@@ -27,9 +27,3 @@ void	ft_putnbr(int nb)
 		size = size / 10;
 	}
 }
-
-int     main(void)
-{
-	ft_putnbr(-2147483648);
-	return (0);
-}       
