@@ -72,9 +72,3 @@ void	ft_print_comb2(void)
 	d = '1';
 	ft_print_all(a, b, c, d);
 }
-
-int	main(void)
-{
-	ft_print_comb2();
-	return (0);
-}
