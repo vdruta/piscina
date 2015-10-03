@@ -27,9 +27,9 @@ char	*ft_strrev(char *str)
 
 int	main(void)
 {
-	char *str;
+	char str[100] = "abcdefg";
 
-	str = "abcdefg";
+//	str = "abcdefg";
 //	ft_strrev(str);
 	printf("%s", ft_strrev(str));
 	return (0);
