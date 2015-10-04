@@ -29,8 +29,8 @@ int	main(void)
 {
 	char str[] = "abcdefg";
 
-//	str = "abcdefg";
-//	ft_strrev(str);
-	printf("%s", ft_strrev(str));
+	printf("%s / ", str);
+	ft_strrev(str);
+	printf("%s", str);
 	return (0);
 }
