@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 void	ft_swap(int *a, int *b)
 {
 	int c;
@@ -18,14 +20,4 @@ void	ft_sort_integer_table(int *tab, int size)
 			ft_swap(&tab[i % size], &tab[i % size + 1]);
 		i++;
 	}
-}
-
-int	main(void)
-{
-	int tab[5] = {10, 7, 9, 0, 11};
-	int l;
-
-	l = 5;
-	ft_sort_integer_table(tab, l);
-	return (0);
 }
