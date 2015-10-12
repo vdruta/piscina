@@ -41,7 +41,8 @@ char	**ft_split_whitespaces(char *str)
 	int	j;
 	int	k;
 
-	mat = malloc(sizeof(char*) * ft_strlen_tw(str) + 1);
+	if ((mat = (char**)malloc(sizeof(char*) * ft_strlen_tw(str) + 1)) == NULL)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -51,7 +52,8 @@ char	**ft_split_whitespaces(char *str)
 		if (str[i])
 		{
 			k = 0;
-			mat[j] = malloc(sizeof(char) * ft_strlen_w(str, i) + 1);
+			if ((mat[j] = (char*)malloc(sizeof(char) * ft_strlen_w(str, i) + 1)) == NULL)
+				return (NULL);
 			while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
 			{
 				mat[j][k] = str[i];
