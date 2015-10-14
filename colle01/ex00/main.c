@@ -49,20 +49,20 @@ char	**ft_create_map(int argc, char **argv)
 			j++;
 		}
 		tab[k][j] = '\0';
-//		if (j != 9)
-//		{
-//			write(1, "Erreurj\n", 8);
-//			return (0);
-//		}
+		if (j != 9)
+		{
+			write(1, "Erreurj\n", 8);
+			return (NULL);
+		}
 		k++;
 		i++;
 	}
 //	tab[k] = 0;
-//	if (i != 10)
-//	{
-//		write(1, "Erreuri\n", 8);
-//		return (0);
-//	}
+	if (i != 10)
+	{
+		write(1, "Erreuri\n", 8);
+		return (NULL);
+	}
 	return (tab);
 }
 
@@ -86,12 +86,78 @@ int	ft_validate_map_chars(char **tab)
 	return (1);
 }
 
+char	**ft_create_sudoku_map(char **tab)
+{
+	char	*str;
+	int	i;
+	int	j;
+	char	x;
+
+	str = (char*)malloc(sizeof(str) + 1);
+	i = 0;
+	x = '0';
+	while (tab[i])
+	{
+		j = 0;
+		while(tab[i][j])
+		{
+			if (tab[i][j] >= '0' && tab[i][j] <= '9')
+				j++;
+			if (tab[i][j] == '.')
+			{	
+				while (ft_check_row(tab, i, j, x) == 0 && ft_check_col() == 0 && ft_check_square() == 0 &&)
+				{
+					tab[i][j] = x;
+					x++;
+				}
+				x = '0'
+				j++;
+			}
+		}
+		i++;
+	}
+	return (map);
+}
+
 int	main(int argc, char **argv)
 {
 	char **tab;
 
 	tab = ft_create_map(argc, argv);
-	printf("%d", ft_validate_map_chars(tab));
+	if (tab != 0 && ft_validate_map_chars(tab))
+		printf("%d", ft_validate_map_chars(tab));
 
 	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
