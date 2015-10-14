@@ -12,19 +12,18 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int	ft_strlen_map(int ac, char **argv)
+int	ft_strlen_map(int argc, char **argv)
 {
 	int i;
 	int len;
 
 	i = 1;
 	len = 0;
-	while (i < ac)
+	while (i < argc)
 	{
 		len = len + ft_strlen(argv[i]);
 		i++;
 	}
-	printf("%d", len);
 	return (len);
 }
 
@@ -44,26 +43,26 @@ char	**ft_create_map(int argc, char **argv)
 		j = 0;
 		if ((tab[k] = (char*)malloc(sizeof(char) * ft_strlen(argv[i]) + 1)) == NULL)
 			return (0);
-		while (argv[i])
+		while (argv[i][j])
 		{
 			tab[k][j] = argv[i][j];
 			j++;
 		}
 		tab[k][j] = '\0';
-		if (j != 9)
-		{
-			write(1, "Erreurj\n", 8);
-			return (0);
-		}
+//		if (j != 9)
+//		{
+//			write(1, "Erreurj\n", 8);
+//			return (0);
+//		}
 		k++;
 		i++;
 	}
 //	tab[k] = 0;
-	if (i != 10)
-	{
-		write(1, "Erreuri\n", 8);
-		return (0);
-	}
+//	if (i != 10)
+//	{
+//		write(1, "Erreuri\n", 8);
+//		return (0);
+//	}
 	return (tab);
 }
 
