@@ -103,20 +103,28 @@ char	**ft_create_sudoku_map(char **tab)
 		{
 			if (tab[i][j] >= '0' && tab[i][j] <= '9')
 				j++;
+			x = '0';
 			if (tab[i][j] == '.')
-			{	
-				while (ft_check_row(tab, i, j, x) == 0 && ft_check_col() == 0 && ft_check_square() == 0 &&)
+			{
+				while (x <= '9')
 				{
-					tab[i][j] = x;
+					if (ft_check_row(tab, i, j, x) == 1 && ft_check_col() == 1 && ft_check_square() == 1) //create these functions
+					{
+						tab[i][j] = x;
+						//save position;
+						x = '9';
+					}
 					x++;
 				}
-				x = '0'
+				if (tab[i][j] == '.')
+					//go back to 1st position and increase x or
+					//go back 1 position and increase x
 				j++;
-			}
+			}	
 		}
 		i++;
 	}
-	return (map);
+	return (tab);
 }
 
 int	main(int argc, char **argv)
