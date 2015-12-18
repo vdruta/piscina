@@ -6,4 +6,5 @@
 # include <stdio.h>
 # include "libft/libft.h"
 
+void	ft_back(int vfi, int vfj, char **tab, char **tab2);
 #endif
