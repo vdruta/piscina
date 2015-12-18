@@ -1,11 +1,10 @@
 #include "sudoku.h"
 
-int	ft_valid_possibility(int vfi, int vfj, char **tab, char c)
+int	ft_valid_possibility(int vfi, int vfj, char **tab)
 {
 	int i;
 	int j;
 
-	i = 0;
 	j = 0;
 	while (j < vfj)
 	{
@@ -46,6 +45,7 @@ void	ft_find_a_free_spot(int *vfi, int *vfj, char **tab)
 	j = *vfj;
 	while (tab[i])
 	{
+		j = 0;
 		while (tab[i][j])
 		{
 			if (tab[i][j] == '.')
@@ -57,33 +57,47 @@ void	ft_find_a_free_spot(int *vfi, int *vfj, char **tab)
 			}
 			j++;
 		}
-		j = 0;
 		i++;
 	}
+}
+
+int	ft_tab_contains_only_1_to_9(char **tab)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			if (tab[i][j] == '.')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 void	ft_back(int vfi, int vfj, char **tab)
 {
 	char c;
 	int i;
 	
-	i = 0;
+
 	ft_find_a_free_spot(&vfi, &vfj, tab);
 	c = '1';
 	while (c <= '9')
 	{
 		tab[vfi][vfj] = c;
-	//	printf("%c", tab[vfi][vfj]);
-		if (ft_valid_possibility(vfi, vfj, tab, c))
+		if (ft_valid_possibility(vfi, vfj, tab))
 		{
-
-			if (vfi == 8 && vfj == 8)
+			printf("%c", c);
+			if (ft_tab_contains_only_1_to_9(tab))
 			{
 				ft_putendl("done");
-				while (tab[i])
-				{
-					ft_putendl(tab[i]);
-					i++;
-				}
+				i = 0;
 			}
 			else
 			{
@@ -91,8 +105,6 @@ void	ft_back(int vfi, int vfj, char **tab)
 				if (vfj == 9)
 				{
 					vfi++;
-					if (vfi == 9)
-						exit(0);
 					vfj = 0;	
 				}
 				ft_back(vfi, vfj, tab);
