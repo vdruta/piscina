@@ -5,6 +5,7 @@ int	ft_valid_possibility(int vfi, int vfj, char **tab)
 	int i;
 	int j;
 
+/* check in line*/
 	j = 0;
 	while (j < vfj)
 	{
@@ -19,6 +20,7 @@ int	ft_valid_possibility(int vfi, int vfj, char **tab)
 			return (0);
 		j++;
 	}
+/* check in column*/
 	i = 0;
 	while (i < vfi)
 	{
@@ -33,31 +35,21 @@ int	ft_valid_possibility(int vfi, int vfj, char **tab)
 			return (0);
 		i++;
 	}
-	return (1);
-}
-
-void	ft_find_a_free_spot(int *vfi, int *vfj, char **tab)
-{
-	int i;
-	int j;
-
-	i = *vfi;
-	j = *vfj;
-	while (tab[i])
+/* check small sqare*/
+	i = (vfi / 3) * 3;
+	j = (vfj / 3) * 3;
+	while (i < 3 * ((vfi / 3) + 1))
 	{
-		j = 0;
-		while (tab[i][j])
+		j = (vfj / 3) * 3;
+		while (j < 3 * ((vfj / 3) + 1))
 		{
-			if (tab[i][j] == '.')
-			{
-				*vfi = i;
-				*vfj = j;
-				return ;
-			}
+			if (tab[i][j] == tab[vfi][vfj] && i != vfi && j != vfj)
+				return (0);
 			j++;
 		}
 		i++;
-	}
+	}	
+	return (1);
 }
 
 int	ft_tab_contains_only_1_to_9(char **tab)
@@ -80,7 +72,52 @@ int	ft_tab_contains_only_1_to_9(char **tab)
 	return (1);
 }
 
-void	ft_go_next(int vfi, int vfj, char **tab, char **tab2)
+void	ft_back(int vfi, int vfj, char **tab)
+{
+	char	c;
+	int	i;
+	int	j;
+	int	ok;
+
+	ok = 0;
+	c = '1';
+	while (c <= '9')
+	{
+		tab[vfi][vfj] = c;
+		if (ft_valid_possibility(vfi, vfj, tab))
+		{
+			if (ft_tab_contains_only_1_to_9(tab))
+			{
+				ok++;
+				if (ok > 1)
+				{
+					write(1, "Erreur\n", 7);
+					exit (0);
+				}
+				/*print valid solutions. TODO print if there is only one solution*/
+				i = 0;
+				while (tab[i])
+				{
+					j = 0;
+					while (tab[i][j])
+					{
+						write(1, &tab[i][j], 1);
+						write(1, " ", 1);
+						j++;
+					}
+					write(1, "\n", 1);
+					i++;
+				}
+			}
+			else
+				ft_go_next(vfi, vfj + 1, tab);
+		}
+		c++;
+	}
+	tab[vfi][vfj] = '.';
+}
+
+void	ft_go_next(int vfi, int vfj, char **tab)
 {
 	if (vfj == 9)
 	{
@@ -97,43 +134,7 @@ void	ft_go_next(int vfi, int vfj, char **tab, char **tab2)
 		}
 	}
 	if (vfi < 9)
-		ft_back(vfi, vfj, tab, tab2);
-}
-
-void	ft_back(int vfi, int vfj, char **tab, char **tab2)
-{
-	char c;
-	int i;
-	int x;
-	int y;
-
-	x = vfi;
-	y = vfj;
-	c = '1';
-	while (c <= '9')
-	{
-		tab[vfi][vfj] = c;
-		if (ft_valid_possibility(vfi, vfj, tab))
-		{
-			if (ft_tab_contains_only_1_to_9(tab))
-			{
-				ft_putendl("done");
-				i = 0;
-				while (tab[i])
-				{
-					ft_putendl(tab[i]);
-					i++;
-				}
-				tab2 = tab;
-			}
-			else
-			{
-				ft_go_next(vfi, vfj + 1, tab, tab2);
-			}
-		}
-		c++;
-	}	
-	tab[x][y] = '.';
+		ft_back(vfi, vfj, tab);
 }
 
 int	main(int argc, char**argv)
@@ -141,7 +142,6 @@ int	main(int argc, char**argv)
 	int i;
 	int j;
 	char **tab;
-	char **tab2;
 
 	i = 1;
 	if (argc != 10)
@@ -150,7 +150,6 @@ int	main(int argc, char**argv)
 		return (0);
 	}
 	tab = (char**)malloc(sizeof(*tab) * argc);
-	tab2 = (char**)malloc(sizeof(*tab) * argc);
 	while (i < argc)
 	{
 		tab[i - 1] = argv[i];
@@ -158,14 +157,6 @@ int	main(int argc, char**argv)
 	}
 	tab[i - 1] = 0;
 	//print initial tab - just for fun.
-	i = 0;
-	while (tab[i])
-	{
-		ft_putendl(tab[i]);
-		i++;
-	}
-
-	ft_go_next(0, 0, tab, tab2);
-
+	ft_go_next(0, 0, tab);
 	return (0);
 }
