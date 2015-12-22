@@ -35,7 +35,7 @@ int	ft_valid_possibility(int vfi, int vfj, char **tab)
 			return (0);
 		i++;
 	}
-	/* check small sqare*/
+	/* check small square*/
 	i = (vfi / 3) * 3;
 	j = (vfj / 3) * 3;
 	while (i < 3 * ((vfi / 3) + 1))
@@ -72,7 +72,7 @@ int	ft_tab_contains_only_1_to_9(char **tab)
 	return (1);
 }
 
-void	ft_back(int vfi, int vfj, char **tab, int *ok, char **tab2)
+void	ft_back(int vfi, int vfj, char **tab, int *ok)
 {
 	char	c;
 	int	i;
@@ -86,15 +86,14 @@ void	ft_back(int vfi, int vfj, char **tab, int *ok, char **tab2)
 		{
 			if (ft_tab_contains_only_1_to_9(tab))
 			{
-				(*ok)++;
-				tab2 = tab;
+				(*ok)++; //count number of valid sudokus.
 				i = 0;
-				while (tab2[i])
+				while (tab[i])
 				{
 					j = 0;
-					while (tab2[i][j])
+					while (tab[i][j])
 					{
-						write(1, &tab2[i][j], 1);
+						write(1, &tab[i][j], 1);
 						write(1, " ", 1);
 						j++;
 					}
@@ -103,14 +102,14 @@ void	ft_back(int vfi, int vfj, char **tab, int *ok, char **tab2)
 				}
 			}
 			else
-				ft_go_next(vfi, vfj + 1, tab, ok, tab2);
+				ft_go_next(vfi, vfj + 1, tab, ok);
 		}
 		c++;
 	}
 	tab[vfi][vfj] = '.';
 }
 
-void	ft_go_next(int vfi, int vfj, char **tab, int *ok, char **tab2)
+void	ft_go_next(int vfi, int vfj, char **tab, int *ok)
 {
 	if (vfj == 9)
 	{
@@ -127,7 +126,7 @@ void	ft_go_next(int vfi, int vfj, char **tab, int *ok, char **tab2)
 		}
 	}
 	if (vfi < 9)
-		ft_back(vfi, vfj, tab, ok, tab2);
+		ft_back(vfi, vfj, tab, ok);
 }
 
 int	main(int argc, char**argv)
@@ -135,7 +134,6 @@ int	main(int argc, char**argv)
 	int i;
 	int j;
 	char **tab;
-	char **tab2;
 	int ok;
 
 	ok = 0;
@@ -146,29 +144,14 @@ int	main(int argc, char**argv)
 		return (0);
 	}
 	tab = (char**)malloc(sizeof(*tab) * argc);
-	tab2 = (char**)malloc(sizeof(*tab2) * argc);
 	while (i < argc)
 	{
 		tab[i - 1] = argv[i];
 		i++;
 	}
 	tab[i - 1] = 0;
-	tab2 = tab;
-	ft_go_next(0, 0, tab, &ok, tab2);
+	ft_go_next(0, 0, tab, &ok);
 	if (ok != 1) //TODO print from main 
 		write(1, "Erreur\n 1+ solutions", 20);
-	i = 0;
-	while (tab2[i])
-	{
-		j = 0;
-		while (tab2[i][j])
-		{
-			write(1, &tab2[i][j], 1);
-			write(1, " ", 1);
-			j++;
-		}
-		write(1, "\n", 1);
-		i++;
-	}
 	return (0);
 }
