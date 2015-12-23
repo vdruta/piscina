@@ -72,11 +72,36 @@ int	ft_tab_contains_only_1_to_9(char **tab)
 	return (1);
 }
 
-void	ft_back(int vfi, int vfj, char **tab, int *ok)
+char **ft_copy_matrix(char **tab)
+{
+	int i;
+	int j;
+	char **tab2;
+
+	tab2 = (char**)malloc(sizeof(char*) * 10);
+	i = 0;
+	while (i < 20)
+		tab2[i++] = (char*)malloc(10);
+	i = 0;
+	j = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			tab2[i][j] = tab[i][j];
+			j++;
+		}
+		tab2[i][j] = 0;
+		i++;
+	}
+	tab2[i] = 0;
+	return (tab2);
+}
+
+void	ft_back(int vfi, int vfj, char **tab, int *ok, char ***tab2)
 {
 	char	c;
-	int	i;
-	int	j;
 
 	c = '1';
 	while (c <= '9')
@@ -87,29 +112,17 @@ void	ft_back(int vfi, int vfj, char **tab, int *ok)
 			if (ft_tab_contains_only_1_to_9(tab))
 			{
 				(*ok)++; //count number of valid sudokus.
-				i = 0;
-				while (tab[i])
-				{
-					j = 0;
-					while (tab[i][j])
-					{
-						write(1, &tab[i][j], 1);
-						write(1, " ", 1);
-						j++;
-					}
-					write(1, "\n", 1);
-					i++;
-				}
+				*tab2 = ft_copy_matrix(tab);
 			}
 			else
-				ft_go_next(vfi, vfj + 1, tab, ok);
+				ft_go_next(vfi, vfj + 1, tab, ok, tab2);
 		}
 		c++;
 	}
 	tab[vfi][vfj] = '.';
 }
 
-void	ft_go_next(int vfi, int vfj, char **tab, int *ok)
+void	ft_go_next(int vfi, int vfj, char **tab, int *ok, char ***tab2)
 {
 	if (vfj == 9)
 	{
@@ -126,7 +139,7 @@ void	ft_go_next(int vfi, int vfj, char **tab, int *ok)
 		}
 	}
 	if (vfi < 9)
-		ft_back(vfi, vfj, tab, ok);
+		ft_back(vfi, vfj, tab, ok, tab2);
 }
 
 int	main(int argc, char**argv)
@@ -134,6 +147,7 @@ int	main(int argc, char**argv)
 	int i;
 	int j;
 	char **tab;
+	char **tab2;
 	int ok;
 
 	ok = 0;
@@ -150,8 +164,24 @@ int	main(int argc, char**argv)
 		i++;
 	}
 	tab[i - 1] = 0;
-	ft_go_next(0, 0, tab, &ok);
-	if (ok != 1) //TODO print from main 
+	ft_go_next(0, 0, tab, &ok, &tab2);
+	if (ok != 1)
+	{	
 		write(1, "Erreur\n 1+ solutions", 20);
+		return (0);
+	}
+	i = 0;
+	while (tab2[i])
+	{
+		j = 0;
+		while (tab2[i][j])
+		{
+			write(1, &tab2[i][j], 1);
+			write(1, " ", 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
 	return (0);
 }
